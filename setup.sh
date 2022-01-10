@@ -19,7 +19,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # Set up config from git or local config folder
 mkdir -p "$HOME/.config/shell-config"
 
-REPO=$(whiptail --inputbox "Type in github config repo" USER/REPO 8 39 --title "Example Dialog" 3>&1 1>&2 2>&3)
+REPO=$(whiptail --inputbox "Type in github config repo" 8 39 "USER/REPO" --title "Clone your config repo" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "Host github.com" >> "$HOME/.ssh/config" 
