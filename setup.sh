@@ -11,7 +11,7 @@ sudo apt-get install -y zsh
 chsh -s /usr/bin/zsh
 
 # install dependencies
-sudo apt install -y build-essential whiptail curl dirmngr file gawk git gpg libbz2-dev libffi-dev liblzma-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libxmlsec1-dev llvm make procps tk-dev wget xz-utils zlib1g-dev# Set up private passwordless key
+sudo apt install -y build-essential whiptail xclip curl dirmngr file gawk git gpg libbz2-dev libffi-dev liblzma-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libxmlsec1-dev llvm make procps tk-dev wget xz-utils zlib1g-dev
 
 # unlink previous dotfiles
 mv ~/.profile ~/.profile.old
