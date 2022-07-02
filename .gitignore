@@ -1,2 +1,5 @@
 Brewfile.lock.json
+
+!**/.tool-versions
+
 dotfiles/.gitconfig

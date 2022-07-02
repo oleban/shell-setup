@@ -20,6 +20,10 @@ mv ~/.zshrc ~/.zshrc.old
 # Link dotfiles
 ln -sf $SCRIPT_DIR/dotfiles/.* ~/
 
+# Setup git global config
+git config --global core.excludesfile ~/.gitignore_global
+
+# Setup ssh file
 mkdir -p "$HOME/.ssh"
 if [ ! -f "$HOME/.ssh/config" ] ; then
     touch "$HOME/.ssh/config"
