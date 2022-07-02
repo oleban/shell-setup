@@ -1,0 +1,11 @@
+
+# Global ignores
+.history
+.vscode
+.envrc
+.tool-versions
+.eslintrc
+.gitmodules
+klp-libs/
+
+**/babel.config.js

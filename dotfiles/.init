@@ -1,0 +1,8 @@
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+. /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+eval "$(asdf exec direnv hook zsh)"
+
+source ~/.antigenrc
+source ~/.aliases
+source ~/.functions
+

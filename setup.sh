@@ -1,8 +1,25 @@
 #!/bin/bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+echo $SCRIPT_DIR
 
 # Update and upgrade and install homebrew dependencies
-sudo apt update && sudo apt upgrade -y && sudo apt install whiptail build-essential -y
-# Set up private passwordless key
+sudo apt update
+sudo apt upgrade -y
+
+# install z shell
+sudo apt-get install -y zsh
+chsh -s /usr/bin/zsh
+
+# install dependencies
+sudo apt install -y build-essential whiptail curl dirmngr file gawk git gpg libbz2-dev libffi-dev liblzma-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libxmlsec1-dev llvm make procps tk-dev wget xz-utils zlib1g-dev# Set up private passwordless key
+
+# unlink previous dotfiles
+mv ~/.profile ~/.profile.old
+mv ~/.zshrc ~/.zshrc.old
+
+# Link dotfiles
+ln -sf $SCRIPT_DIR/dotfiles/.* ~/
+
 mkdir -p "$HOME/.ssh"
 if [ ! -f "$HOME/.ssh/config" ] ; then
     touch "$HOME/.ssh/config"
@@ -22,30 +39,19 @@ fi
 test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
 test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-
-# Set up config from git or local config folder
-# 
-if [ ! -d "$HOME/.config/shell-config" ] ; then
-    REPO=$(whiptail --inputbox "Type in github config repo" 8 39 "USER/REPO" --title "Clone your config repo" 3>&1 1>&2 2>&3)
-    exitstatus=$?
-    if [ $exitstatus = 0 ]; then
-
-        brew install gh
-        gh auth login
-
-        echo "Host github.com" >> "$HOME/.ssh/config" 
-        echo "  IdentityFile ~/.ssh/$SSH_KEY_FILE" >> "$HOME/.ssh/config" 
-        echo "  IdentitiesOnly yes" >> "$HOME/.ssh/config" 
-        echo "" >> "$HOME/.ssh/config" 
-        gh ssh-key add "$SSH_KEY_FILE_PATH.pub"
-        
-        gh repo clone $REPO "$HOME/.config/shell-config"
-    else
-        mkdir -p "$HOME/.config/shell-config"
-    fi
-fi
-
 # Install from Brewfile
-if [ -f "$HOME/.config/shell-config/Brewfile" ] ; then
-    brew bundle install "$HOME/.config/shell-config/Brewfile"
+if [ -f "$SCRIPT_DIR/Brewfile" ] ; then
+    brew bundle --file "$SCRIPT_DIR/Brewfile"
 fi
+
+# ASDF
+. $(brew --prefix asdf)/libexec/asdf.sh
+
+# Adds all plugins from .tool-versions
+cat ~/.tool-versions | cut -d' ' -f1 | grep "^[^\#]" | xargs -i asdf plugin add  {}
+# Installs plugins
+asdf install
+#echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ~/.profile
+#asdf plugin-add direnv
+asdf direnv setup --shell zsh --version latest
+#eval "$(asdf exec direnv hook zsh)"
