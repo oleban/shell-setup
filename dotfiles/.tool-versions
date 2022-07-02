@@ -1,3 +1,4 @@
 nodejs 18.2.0
 java adoptopenjdk-17.0.3+7
 direnv 2.32.1
+yarn 1.22.19
