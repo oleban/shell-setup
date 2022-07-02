@@ -1,0 +1,5 @@
+[user]
+	name = *** REMOVED ***
+	email = *** REMOVED ***
+[core]
+	excludesfile = /home/vagrant/.gitignore_global
